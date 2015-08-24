@@ -31,7 +31,6 @@
             this.progress = new System.Windows.Forms.ProgressBar();
             this.bwAsync = new System.ComponentModel.BackgroundWorker();
             this.btnDownload = new System.Windows.Forms.Button();
-            this.txtLog = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblProgress = new System.Windows.Forms.Label();
             this.lblAdditionalInfo = new System.Windows.Forms.Label();
@@ -39,6 +38,7 @@
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnLoadConfig = new System.Windows.Forms.Button();
+            this.txtLog = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // progress
@@ -69,19 +69,6 @@
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
-            // 
-            // txtLog
-            // 
-            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(12, 141);
-            this.txtLog.Multiline = true;
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(733, 119);
-            this.txtLog.TabIndex = 2;
-            this.txtLog.WordWrap = false;
             // 
             // btnCancel
             // 
@@ -155,13 +142,22 @@
             this.btnLoadConfig.Text = "Load";
             this.btnLoadConfig.UseVisualStyleBackColor = true;
             this.btnLoadConfig.Visible = false;
-            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
+            // 
+            // txtLog
+            // 
+            this.txtLog.Location = new System.Drawing.Point(12, 143);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.Size = new System.Drawing.Size(733, 119);
+            this.txtLog.TabIndex = 8;
+            this.txtLog.Text = "";
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(757, 300);
+            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.btnLoadConfig);
@@ -169,7 +165,6 @@
             this.Controls.Add(this.lblAdditionalInfo);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.progress);
             this.Name = "FrmMain";
@@ -185,7 +180,6 @@
         private System.Windows.Forms.ProgressBar progress;
         private System.ComponentModel.BackgroundWorker bwAsync;
         private System.Windows.Forms.Button btnDownload;
-        private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Label lblAdditionalInfo;
@@ -193,6 +187,7 @@
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnLoadConfig;
+        private System.Windows.Forms.RichTextBox txtLog;
     }
 }
 

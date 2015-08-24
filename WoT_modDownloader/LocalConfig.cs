@@ -12,8 +12,23 @@ namespace WoT_modDownloader
     [Serializable]
     public class LocalConfig : SerializableBase
     {
-        public string gameVersion { get; set; }
-        public string modVersion { get; set; }
+        //public string gameVersion { get; set; }
+        //public string modVersion { get; set; }
+
+        private Version _gameVersion;
+        private Version _modVersion;
+
+        public string gameVersion
+        {
+            get { return _gameVersion.ToString(); }
+            set { _gameVersion = new Version(value); }
+        }
+        
+        public string modVersion
+        {
+            get { return _modVersion.ToString();  }
+            set { _modVersion = new Version(value); }
+        }
 
         public void Save(string location)
         {

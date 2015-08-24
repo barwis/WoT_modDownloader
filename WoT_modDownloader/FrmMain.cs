@@ -16,8 +16,15 @@ using KnightsWarriorAutoupdater;
 
 namespace WoT_modDownloader
 {
+
+
+
+
     public partial class FrmMain : Form
     {
+
+       
+
         RemoteConfig remoteConfig = new RemoteConfig();//creating sample config
         //WTConfig mainProgCfg = new WTConfig();
         LocalConfig localConfig = new LocalConfig();
@@ -185,11 +192,9 @@ namespace WoT_modDownloader
             var selection = from x in remoteConfig.Mods where x.GameVersion.Equals(gameVersion) || (new Version(x.GameVersion).Major == 1)  select x;// select all where GaMeVerSion is 1.2.3.4
             var asList = selection.ToList();
 
-            Version ver = Version.Parse(localConfig.modVersion); // todo: change local version from string to version
-
             foreach (var m in asList)
             {
-                if (ver.CompareTo(Version.Parse(m.ModVersion)) < 0 ) 
+                if (localConfig.modVersion.CompareTo(m.ModVersion) < 0) 
                     AddToLog("Znaleziono nowa wersje moda. Wersja gry: " + m.GameVersion + "; werjsa moda: " + m.ModVersion);
             }
         }
@@ -220,7 +225,6 @@ namespace WoT_modDownloader
                 AddToLog("Nie mozna wczytac pliku wersji");
                 return false;
             }
-
         }
 
         private bool getGameLoc()
@@ -261,7 +265,6 @@ namespace WoT_modDownloader
                 }
             }
 
-
             return false;
         }
 
@@ -279,12 +282,6 @@ namespace WoT_modDownloader
             loadRemoteConfig();
             loadLocalConfig();
             AddToLog("Wersja moda (lokalna): " + localConfig.modVersion);
-
-        }
-
-        private void btnLoadConfig_Click(object sender, EventArgs e)
-        {
-
         }
     }
 
