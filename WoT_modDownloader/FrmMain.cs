@@ -12,7 +12,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using KnightsWarriorAutoupdater;
-
+using SharpUpdate;
+using System.Reflection;
 
 namespace WoT_modDownloader
 {
@@ -20,7 +21,7 @@ namespace WoT_modDownloader
 
 
 
-    public partial class FrmMain : Form
+    public partial class FrmMain : Form, ISharpUpdatable
     {
 
        
@@ -36,9 +37,58 @@ namespace WoT_modDownloader
         string buildNo;
         string fileToDownload;
 
+        public string ApplicationName
+        {
+            get
+            {
+                return this.ApplicationName;
+            }
+        }
+
+        public string ApplicationID
+        {
+            get
+            {
+                return this.ApplicationName;
+            }
+        }
+
+        public Assembly ApplcationAssembly
+        {
+            get
+            {
+                return Assembly.GetExecutingAssembly();
+            }
+        }
+
+        public Icon ApplcationIcon
+        {
+            get
+            {
+                return this.Icon;
+            }
+        }
+
+        public Uri UpdateXmlLocation
+        {
+            get
+            {
+                return new Uri("");
+            }
+        }
+
+        public Form Context
+        {
+            get
+            {
+                return this;
+            }
+        }
+
         public FrmMain()
         {
             InitializeComponent();
+            this.Text += " v." + this.ApplcationAssembly.GetName().Version.ToString();
         }
 
         private void bwAsync_DoWork(object sender, DoWorkEventArgs e)

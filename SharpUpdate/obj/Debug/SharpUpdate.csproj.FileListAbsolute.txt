@@ -1,0 +1,8 @@
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\bin\Debug\SharpUpdate.dll
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\bin\Debug\SharpUpdate.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.csprojResolveAssemblyReference.cache
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.dll
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateInfoForm.resources
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.csproj.GenerateResource.Cache
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateDownloadForm.resources

@@ -9,3 +9,15 @@ C:\Users\IEUser\Downloads\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modD
 C:\Users\IEUser\Downloads\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.pdb
 C:\Users\IEUser\Downloads\WoT_modDownloader\WoT_modDownloader\bin\Debug\AutoUpdater.dll
 C:\Users\IEUser\Downloads\WoT_modDownloader\WoT_modDownloader\bin\Debug\AutoUpdater.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\WoT_modDownloader.exe.config
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.exe
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.csprojResolveAssemblyReference.cache
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.FrmMain.resources
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.Properties.Resources.resources
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.csproj.GenerateResource.Cache
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\WoT_modDownloader.exe
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\WoT_modDownloader.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\SharpUpdate.dll
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\SharpUpdate.pdb
+C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\AutoUpdater.pdb
