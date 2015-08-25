@@ -6,3 +6,12 @@ C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUp
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateInfoForm.resources
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.csproj.GenerateResource.Cache
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateDownloadForm.resources
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\bin\Debug\SharpUpdate.dll
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\bin\Debug\SharpUpdate.pdb
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.csprojResolveAssemblyReference.cache
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateDownloadForm.resources
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateInfoForm.resources
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.csproj.GenerateResource.Cache
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.dll
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.pdb
+C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\SharpUpdate\obj\Debug\SharpUpdate.SharpUpdateAcceptForm.resources
