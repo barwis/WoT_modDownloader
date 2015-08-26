@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using KnightsWarriorAutoupdater;
 using SharpUpdate;
 using System.Reflection;
 
@@ -23,25 +22,25 @@ namespace WoT_modDownloader
 
     public partial class FrmMain : Form, ISharpUpdatable
     {
-
-       
-
         RemoteConfig remoteConfig = new RemoteConfig();//creating sample config
         //WTConfig mainProgCfg = new WTConfig();
         LocalConfig localConfig = new LocalConfig();
 
         string remoteBase = @"http://behindpixels.co.uk/wot/";
         string localBase;
-        string localConfigPath;
-        string gameVersion;
+        Version gameVersion;
         string buildNo;
         string fileToDownload;
+
+        private SharpUpdater updater;
+
+        #region UpdaterVariables
 
         public string ApplicationName
         {
             get
             {
-                return this.ApplicationName;
+                return "WoT_modDownloader";
             }
         }
 
@@ -49,7 +48,7 @@ namespace WoT_modDownloader
         {
             get
             {
-                return this.ApplicationName;
+                return "WoT_modDownloader";
             }
         }
 
@@ -73,7 +72,7 @@ namespace WoT_modDownloader
         {
             get
             {
-                return new Uri("");
+                return new Uri("http://behindpixels.co.uk/wot_modDownloader/update.xml");
             }
         }
 
@@ -85,23 +84,13 @@ namespace WoT_modDownloader
             }
         }
 
+        #endregion
+
         public FrmMain()
         {
             InitializeComponent();
-            this.Text += " v." + this.ApplcationAssembly.GetName().Version.ToString();
-        }
-
-        private void bwAsync_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-            //AddToLog("Downloading to " + KnownFolders.GetPath(KnownFolder.Downloads) + "...");
-
-            string destinationPath = KnownFolders.GetPath(KnownFolder.Downloads) + "//vehicles.zip";
-            //string destinationPath = @"d:\\vehicles.zip";
-            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
-            string sourceURL = remoteBase + gameVersion + "/mods/0.27.1/vehicles.zip";
-            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
-            DownloadHelper.Download(destinationPath, sourceURL, sender as BackgroundWorker);
+            this.Text = ApplicationID +  " v." + this.ApplcationAssembly.GetName().Version.ToString() + " by Fowler";
+            updater = new SharpUpdater(this);
         }
 
         private delegate void AddToLogDelegate(string message);
@@ -120,6 +109,117 @@ namespace WoT_modDownloader
             txtLog.ScrollToCaret();
         }
 
+        private void InstallUpdates() {
+
+        }
+
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+            txtLog.Clear();
+            if (!getGameLoc())
+            {
+                AddToLog("Nie znaleziono zainstalowanej gry.");
+                return;
+
+            }
+            else
+            {
+                AddToLog("Gra zainstalowana w: " + localBase);
+            }
+
+            if (!getGameVersion())
+                return;
+
+
+            if (!loadRemoteConfig())
+                return;
+
+            loadLocalConfig();
+
+            AddToLog("Wersja gry: " + localConfig.gameVersion);
+
+
+            //AddToLog("Wersja moda (lokalna): " + localConfig.modVersion);
+
+            var updates = new List<Mod>();
+
+            var selection = from x in remoteConfig.Mods where x.GameVersion.Equals(gameVersion.ToString()) &&  localConfig.modVersion.CompareTo(x.ModVersion) <= 0  /* || (new Version(x.GameVersion).Major == 1) */ select x;// select all where GaMeVerSion is 1.2.3.4
+            var asList = selection.ToList();
+
+            foreach (var m in asList)
+            {
+                //if (localConfig.modVersion.CompareTo(m.ModVersion) < 0)
+                    AddToLog(string.Format("Znaleziono aktualizacje modow do obecnej wersji gry. [ {0} -> {1} ]", localConfig.modVersion, m.ModVersion));
+                    updates.Add(m);
+            }
+
+            var c = updates.Max(m => new Version(m.ModVersion));
+
+            if (c == null)
+            {
+                AddToLog("Twoja wersja moda jest aktualna.");
+                return;
+            } else {
+                AddToLog(c.ToString());
+                fileToDownload = remoteBase + localConfig.gameVersion + "/mods/" + c.ToString() + "/mods.zip";
+                AddToLog(fileToDownload);
+
+                DialogResult result = MessageBox.Show(string.Format("Dostępna jest nowa wersja moda ({0}). Kliknij OK aby zainstalować", c.ToString()), "Dostępna aktualizacja!", MessageBoxButtons.OK);
+                if (result == DialogResult.OK)
+                {
+                    if (!bwAsync.IsBusy)
+                    {
+                        bwAsync.RunWorkerAsync();
+                        btnDownload.Enabled = false;
+                        btnCancel.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Pobieranie w toku!");
+                    }
+                }
+            }
+
+
+
+
+            //DialogResult result = MessageBox.Show()
+
+            //if (!bwAsync.IsBusy)
+            //{
+            //    bwAsync.RunWorkerAsync();
+            //    btnDownload.Enabled = false;
+            //    btnCancel.Enabled = true;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Pobieranie w toku!");
+            //}
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            bwAsync.CancelAsync();
+            btnDownload.Enabled = true;
+            btnCancel.Enabled = false;
+        }
+
+
+        private void bwAsync_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+            //AddToLog("Downloading to " + KnownFolders.GetPath(KnownFolder.Downloads) + "...");
+
+            string destinationPath = KnownFolders.GetPath(KnownFolder.Downloads) + "//vehicles.zip";
+            //string destinationPath = @"d:\\vehicles.zip";
+            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
+            string sourceURL = remoteBase + gameVersion + "/mods/0.27.1/vehicles.zip";
+            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
+            DownloadHelper.Download(destinationPath, sourceURL, sender as BackgroundWorker);
+        }
+
+
+       
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (e.ProgressPercentage >= 0)
@@ -131,9 +231,9 @@ namespace WoT_modDownloader
                 if (complex.IsError)
                     MessageBox.Show(this, complex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else if (!string.IsNullOrWhiteSpace(complex.Message))
-                    AddToLog(complex.Message);
+                    //AddToLog(complex.Message);
                 progress.Value = (int)complex.Percent;
-                lblProgress.Text = string.Format("{0:0.00}%", complex.Percent);
+                lblProgress.Text = string.Format("{0:0.00} %", complex.Percent);
                 lblAdditionalInfo.Text = string.Format("{0:0.00}KB / {1:0.00}KB ({2:0.00}KB)", complex.CurrentBytes / 1024.0, complex.TotalBytes / 1024.0, complex.FileSize / 1024.0);
             }
         }
@@ -150,103 +250,13 @@ namespace WoT_modDownloader
             }
             else
             {
+                lblProgress.Text = "...";
+                lblAdditionalInfo.Text = "...";
                 AddToLog("Pobieranie ukonczone.");
             }
+
             btnDownload.Enabled = true;
             btnCancel.Enabled = false;
-        }
-
-        private void btnDownload_Click(object sender, EventArgs e)
-        {
-            if (!bwAsync.IsBusy)
-            {
-                bwAsync.RunWorkerAsync();
-                btnDownload.Enabled = false;
-                btnCancel.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Pobieranie w toku!");
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            bwAsync.CancelAsync();
-            btnDownload.Enabled = true;
-            btnCancel.Enabled = false;
-        }
-
-        private void btnCreateSample_Click(object sender, EventArgs e)
-        {
-            remoteConfig = new RemoteConfig
-            {
-                Mods = new[] {
-                     new Mod{ GameVersion = "0.9.8" , ModVersion = "0.26.0" },
-                     new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.0" },
-                     new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.1" },
-                     new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.2" },
-
-                 }
-            };
-        }
-
-
-
-        private void loadRemoteConfig()
-        {
-            try
-            {
-                remoteConfig = RemoteConfig.Load(@"http://behindpixels.co.uk/wot/config.xml");
-                AddToLog("Wczytano zdalna konfiguracje...");
-            }
-            catch
-            {
-                AddToLog("Nie udalo sie wczytac zdalnej konfiguracji");
-            }
-        }
-
-        private void loadLocalConfig()
-        {
-            try
-            {
-                localConfig = LocalConfig.Load(localBase + "\\wmd_config.xml");
-                AddToLog("Wczytano lokalna konfiguracje...");
-            }
-            catch
-            {
-                  AddToLog("Nie udalo sie wczytac lokalnej konfiguracji. Prawdopodobnie uruchamiasz ten program po raz pierwszy; Tworzenie...");
-
-                  localConfig = new LocalConfig
-                  {
-                      gameVersion = gameVersion,
-                      modVersion = "0.0.0"
-                  };
-
-            }
-            finally
-            {
-                localConfig.Save(localBase + "\\wmd_config.xml");
-            }
-
-        }
-
-        private void btnSaveConfig_Click(object sender, EventArgs e)
-        {
-            remoteConfig.Save(@"C:\\Games\config.xml");
-        }
-
-        private void btnTest_Click(object sender, EventArgs e)
-        {
-
-            var selection = from x in remoteConfig.Mods where x.GameVersion.Equals(gameVersion) || (new Version(x.GameVersion).Major == 1)  select x;// select all where GaMeVerSion is 1.2.3.4
-            var asList = selection.ToList();
-
-            foreach (var m in asList)
-            {
-                if (localConfig.modVersion.CompareTo(m.ModVersion) < 0) 
-                    AddToLog("Znaleziono nowa wersje moda. Wersja gry: " + m.GameVersion + "; werjsa moda: " + m.ModVersion);
-            }
         }
 
         private bool getGameVersion()
@@ -265,7 +275,8 @@ namespace WoT_modDownloader
                 {
                     XmlNode node = doc.DocumentElement.SelectSingleNode("/version.xml/version");
                     string[] values = node.InnerText.Split('#');
-                    gameVersion = values[0].Trim().Substring(2);
+                    gameVersion = new Version(values[0].Trim().Substring(2));
+                    //gameVersion = "0.9.10";
                     buildNo = values[1].Trim();
                 }
                 return true;
@@ -279,7 +290,6 @@ namespace WoT_modDownloader
 
         private bool getGameLoc()
         {
-            progress.Value = 0;
 
             string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
@@ -318,20 +328,78 @@ namespace WoT_modDownloader
             return false;
         }
 
-        private void FrmMain_Load(object sender, EventArgs e)
+        private bool loadRemoteConfig()
         {
-            if (getGameLoc())
+            try
             {
-                AddToLog("Gra zainstalowana w: " + localBase);
+                remoteConfig = RemoteConfig.Load(@"http://behindpixels.co.uk/wot/config.xml");
+                AddToLog("Wczytano zdalna konfiguracje...");
+                return true;
             }
-            if (getGameVersion())
+            catch
             {
-                AddToLog("Wersja gry: " + gameVersion + " #" + buildNo);
+                AddToLog("Nie udalo sie wczytac zdalnej konfiguracji");
+                return false;
+            }
+        }
+
+        private bool loadLocalConfig()
+        {
+            try
+            {
+                localConfig = LocalConfig.Load(localBase + "\\wmd_config.xml");
+                AddToLog("Wczytano lokalna konfiguracje...");
+                return true;
+            }
+            catch
+            {
+                  AddToLog("Nie udalo sie wczytac lokalnej konfiguracji. Prawdopodobnie uruchamiasz ten program po raz pierwszy; Tworzenie...");
+
+                localConfig = new LocalConfig
+                {
+                    gameVersion = gameVersion.ToString(),
+                    modVersion = "0.0.0"
+                  };
 
             }
-            loadRemoteConfig();
-            loadLocalConfig();
-            AddToLog("Wersja moda (lokalna): " + localConfig.modVersion);
+            finally
+            {
+                localConfig.Save(localBase + "\\wmd_config.xml");
+            }
+            return true;
+
+        }
+
+        //private void btnCreateSample_Click(object sender, EventArgs e)
+        //{
+        //    remoteConfig = new RemoteConfig
+        //    {
+        //        Mods = new[] {
+        //             new Mod{ GameVersion = "0.9.8" , ModVersion = "0.26.0" },
+        //             new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.0" },
+        //             new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.1" },
+        //             new Mod{ GameVersion = "0.9.9" , ModVersion = "0.27.2" },
+
+        //         }
+        //    };
+        //}
+
+
+        //private void btnSaveConfig_Click(object sender, EventArgs e)
+        //{
+        //    remoteConfig.Save(@"C:\\Games\config.xml");
+        //}
+
+
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            updater.DoUpdate();
+        }
+
+        private void btnLoadConfig_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -20,7 +20,6 @@ C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_mod
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\WoT_modDownloader.pdb
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\SharpUpdate.dll
 C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\SharpUpdate.pdb
-C:\Users\Bartosz\Documents\Visual Studio 2015\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\AutoUpdater.pdb
 C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\WoT_modDownloader\bin\Debug\WoT_modDownloader.exe.config
 C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.exe
 C:\Users\IEUser\Documents\Visual Studio 2013\Projects\WoT_modDownloader\WoT_modDownloader\obj\Debug\WoT_modDownloader.pdb

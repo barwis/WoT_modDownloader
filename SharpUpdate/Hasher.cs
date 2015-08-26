@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace SharpUpdate
 {
@@ -22,7 +21,7 @@ namespace SharpUpdate
             switch (algo)
             {
                 case HashType.MD5:
-                    return MakeHashString(MD5.Create().ComputeHash(new FileStream(filePath, FileMode.Open)));
+                    return MakeHashString(MD5.Create().ComputeHash(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)));
 
                 case HashType.SHA1:
                     return MakeHashString(SHA1.Create().ComputeHash(new FileStream(filePath, FileMode.Open)));

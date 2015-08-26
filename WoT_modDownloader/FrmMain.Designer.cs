@@ -28,17 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.progress = new System.Windows.Forms.ProgressBar();
             this.bwAsync = new System.ComponentModel.BackgroundWorker();
             this.btnDownload = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblProgress = new System.Windows.Forms.Label();
             this.lblAdditionalInfo = new System.Windows.Forms.Label();
-            this.btnCreateSample = new System.Windows.Forms.Button();
-            this.btnSaveConfig = new System.Windows.Forms.Button();
-            this.btnTest = new System.Windows.Forms.Button();
-            this.btnLoadConfig = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.RichTextBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progress
@@ -47,7 +45,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progress.Location = new System.Drawing.Point(12, 92);
             this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(679, 23);
+            this.progress.Size = new System.Drawing.Size(662, 23);
             this.progress.Step = 100;
             this.progress.TabIndex = 0;
             // 
@@ -62,7 +60,7 @@
             // btnDownload
             // 
             this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDownload.Location = new System.Drawing.Point(12, 268);
+            this.btnDownload.Location = new System.Drawing.Point(12, 276);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(75, 23);
             this.btnDownload.TabIndex = 1;
@@ -74,7 +72,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(93, 268);
+            this.btnCancel.Location = new System.Drawing.Point(93, 276);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -84,64 +82,21 @@
             // 
             // lblProgress
             // 
-            this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblProgress.Location = new System.Drawing.Point(697, 92);
+            this.lblProgress.Location = new System.Drawing.Point(12, 117);
             this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(48, 23);
+            this.lblProgress.Size = new System.Drawing.Size(103, 23);
             this.lblProgress.TabIndex = 4;
             this.lblProgress.Text = "...";
-            this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblAdditionalInfo
             // 
-            this.lblAdditionalInfo.AutoSize = true;
-            this.lblAdditionalInfo.Location = new System.Drawing.Point(12, 118);
+            this.lblAdditionalInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAdditionalInfo.Location = new System.Drawing.Point(453, 117);
             this.lblAdditionalInfo.Name = "lblAdditionalInfo";
-            this.lblAdditionalInfo.Size = new System.Drawing.Size(16, 13);
+            this.lblAdditionalInfo.Size = new System.Drawing.Size(221, 13);
             this.lblAdditionalInfo.TabIndex = 5;
             this.lblAdditionalInfo.Text = "...";
-            // 
-            // btnCreateSample
-            // 
-            this.btnCreateSample.Location = new System.Drawing.Point(287, 268);
-            this.btnCreateSample.Name = "btnCreateSample";
-            this.btnCreateSample.Size = new System.Drawing.Size(110, 23);
-            this.btnCreateSample.TabIndex = 6;
-            this.btnCreateSample.Text = "Create Sample";
-            this.btnCreateSample.UseVisualStyleBackColor = true;
-            this.btnCreateSample.Visible = false;
-            this.btnCreateSample.Click += new System.EventHandler(this.btnCreateSample_Click);
-            // 
-            // btnSaveConfig
-            // 
-            this.btnSaveConfig.Location = new System.Drawing.Point(484, 268);
-            this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveConfig.TabIndex = 6;
-            this.btnSaveConfig.Text = "Save";
-            this.btnSaveConfig.UseVisualStyleBackColor = true;
-            this.btnSaveConfig.Visible = false;
-            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
-            // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(565, 268);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 7;
-            this.btnTest.Text = "TheChosen";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // btnLoadConfig
-            // 
-            this.btnLoadConfig.Location = new System.Drawing.Point(403, 268);
-            this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadConfig.TabIndex = 6;
-            this.btnLoadConfig.Text = "Load";
-            this.btnLoadConfig.UseVisualStyleBackColor = true;
-            this.btnLoadConfig.Visible = false;
+            this.lblAdditionalInfo.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtLog
             // 
@@ -152,26 +107,33 @@
             this.txtLog.TabIndex = 8;
             this.txtLog.Text = "";
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdate.Location = new System.Drawing.Point(599, 12);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 9;
+            this.btnUpdate.Text = "Aktualizacja";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(757, 300);
+            this.ClientSize = new System.Drawing.Size(686, 308);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.txtLog);
-            this.Controls.Add(this.btnTest);
-            this.Controls.Add(this.btnSaveConfig);
-            this.Controls.Add(this.btnLoadConfig);
-            this.Controls.Add(this.btnCreateSample);
             this.Controls.Add(this.lblAdditionalInfo);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.progress);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
             this.Text = "Downloader";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -183,11 +145,8 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Label lblAdditionalInfo;
-        private System.Windows.Forms.Button btnCreateSample;
-        private System.Windows.Forms.Button btnSaveConfig;
-        private System.Windows.Forms.Button btnTest;
-        private System.Windows.Forms.Button btnLoadConfig;
         private System.Windows.Forms.RichTextBox txtLog;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
 

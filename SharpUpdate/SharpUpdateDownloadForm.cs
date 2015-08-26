@@ -38,11 +38,13 @@ namespace SharpUpdate
             bgWorker.RunWorkerCompleted += BgWorker_RunWorkerCompleted;
             try
             {
-                webClient.DownloadFileAsync(location, this.tempFile);
+                webClient.DownloadFileAsync(location, tempFile);
             }
-            catch
+            catch (Exception ex)
             {
-                this.DialogResult = DialogResult.No; this.Close();
+                MessageBox.Show(ex.Message);
+                this.DialogResult = DialogResult.No;
+                this.Close();
             }
         }
 
@@ -76,6 +78,8 @@ namespace SharpUpdate
         {
             if (e.Error != null)
             {
+                MessageBox.Show(e.Error.Message);
+
                 this.DialogResult = DialogResult.No;
                 this.Close();
             }

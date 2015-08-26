@@ -15,7 +15,7 @@ namespace SharpUpdate
             }
 
             this.Text = applcationInfo.ApplicationName + " - Update info";
-            this.lblVersions.Text = String.Format("Current version {0}\nUpdate Version {1}", applcationInfo.ApplcationAssembly.GetName().Version.ToString(), updateInfo.Version.ToString());
+            this.lblVersions.Text = String.Format("Obecna wersja {0}\nNowa wersja {1}", applcationInfo.ApplcationAssembly.GetName().Version.ToString(), updateInfo.Version.ToString());
             this.txDescription.Text = updateInfo.Description;
         }
 

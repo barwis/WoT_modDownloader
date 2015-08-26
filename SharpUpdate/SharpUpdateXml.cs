@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace SharpUpdate
 {
@@ -79,17 +80,32 @@ namespace SharpUpdate
 
         internal static SharpUpdateXml Parse(Uri location, string appID)
         {
-            Version version = null;
+
             string url = "", fileName = "", md5 = "", description = "", launchArgs = "";
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(location.AbsoluteUri);
 
-                XmlNode node = doc.DocumentElement.SelectSingleNode("//update[@appId='" + appID + ";]");
+                Version version = null;
+
+                XmlDocument doc = new XmlDocument();
+
+                try
+                {
+                    doc.Load(location.AbsoluteUri);
+
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+
+                XmlNode node = doc.DocumentElement.SelectSingleNode("//update[@appId='" + appID + "']");
+
 
                 if (node == null)
                     return null;
+
+
 
                 version = Version.Parse(node["version"].InnerText);
                 url = node["url"].InnerText;
