@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Linq;
 using SharpUpdate;
 using System.Reflection;
+using System.IO.Compression;
 
 namespace WoT_modDownloader
 {
@@ -26,13 +27,17 @@ namespace WoT_modDownloader
         //WTConfig mainProgCfg = new WTConfig();
         LocalConfig localConfig = new LocalConfig();
 
-        string remoteBase = @"http://behindpixels.co.uk/wot/";
+        Uri remoteBase = new Uri(@"http://behindpixels.co.uk/wot/");
         string localBase;
         Version gameVersion;
         string buildNo;
-        string fileToDownload;
+        Uri fileToDownload;
+        string tempPath = KnownFolders.GetPath(KnownFolder.Downloads);
+        string tempDir;
 
         private SharpUpdater updater;
+
+        private BackgroundWorker unzipWorker;
 
         #region UpdaterVariables
 
@@ -109,7 +114,64 @@ namespace WoT_modDownloader
             txtLog.ScrollToCaret();
         }
 
-        private void InstallUpdates() {
+        private void UnzipUpdates() {
+            tempDir = KnownFolders.GetPath(KnownFolder.Downloads) + "\\" + Path.GetFileNameWithoutExtension(tempPath);
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, true);
+            }
+
+            if (!Directory.Exists(tempDir))
+            {
+                Directory.CreateDirectory(tempDir);
+                
+            }
+
+            unzipWorker = new BackgroundWorker();
+            unzipWorker.DoWork += UnzipWorker_DoWork;
+            unzipWorker.RunWorkerCompleted += UnzipWorker_RunWorkerCompleted;
+
+            AddToLog("Rozpakowywanie archiwum. Może to potrwać kilka minut...");
+            if (!unzipWorker.IsBusy)
+                unzipWorker.RunWorkerAsync();
+        }
+
+        private void UnzipWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            AddToLog("Rozpakowywanie zakończone.");
+            CopyUpdates();
+        }
+
+        private void UnzipWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var tempDir = KnownFolders.GetPath(KnownFolder.Downloads) + "\\" + Path.GetFileNameWithoutExtension(tempPath);
+            using (ZipArchive archive = ZipFile.OpenRead(tempPath))
+            {
+                archive.ExtractToDirectory(tempDir);
+            }
+        }
+
+        private void CopyUpdates()
+        {
+            AddToLog("Kopiowanie plików...");
+
+
+            FileInfo[] files = null;
+            DirectoryInfo[] subDirs = null;
+            DirectoryInfo rootDir = new DirectoryInfo(tempDir);
+
+            files = rootDir.GetFiles("*.*");
+            subDirs = rootDir.GetDirectories();
+
+            foreach (var d in subDirs)
+            {
+                AddToLog(d.FullName + "->" + d.Name);
+            }
+            foreach(var f in files)
+            {
+                AddToLog(f.FullName + "->" + f.Name);
+            }
+
 
         }
 
@@ -149,52 +211,35 @@ namespace WoT_modDownloader
             foreach (var m in asList)
             {
                 //if (localConfig.modVersion.CompareTo(m.ModVersion) < 0)
-                    AddToLog(string.Format("Znaleziono aktualizacje modow do obecnej wersji gry. [ {0} -> {1} ]", localConfig.modVersion, m.ModVersion));
+                    //AddToLog(string.Format("Znaleziono aktualizacje modow do obecnej wersji gry. [ {0} -> {1} ]", localConfig.modVersion, m.ModVersion));
                     updates.Add(m);
             }
 
             var c = updates.Max(m => new Version(m.ModVersion));
 
+            AddToLog(string.Format("Znaleziono aktualizacje modow do obecnej wersji gry. [ {0} -> {1} ]", localConfig.modVersion, c.ToString()));
+            
             if (c == null)
             {
                 AddToLog("Twoja wersja moda jest aktualna.");
                 return;
             } else {
                 AddToLog(c.ToString());
-                fileToDownload = remoteBase + localConfig.gameVersion + "/mods/" + c.ToString() + "/mods.zip";
-                AddToLog(fileToDownload);
+                fileToDownload = new Uri(remoteBase, localConfig.gameVersion + "/mods/" + c.ToString() + "/mods.zip");
+                tempPath += "\\mods_" + localConfig.gameVersion + "_" + c.ToString() + ".zip";
 
-                DialogResult result = MessageBox.Show(string.Format("Dostępna jest nowa wersja moda ({0}). Kliknij OK aby zainstalować", c.ToString()), "Dostępna aktualizacja!", MessageBoxButtons.OK);
-                if (result == DialogResult.OK)
+                AddToLog("Znaleziono nową wersję moda. Pobieranie...");
+                if (!bwAsync.IsBusy)
                 {
-                    if (!bwAsync.IsBusy)
-                    {
-                        bwAsync.RunWorkerAsync();
-                        btnDownload.Enabled = false;
-                        btnCancel.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Pobieranie w toku!");
-                    }
+                    bwAsync.RunWorkerAsync();
+                    btnDownload.Enabled = false;
+                    btnCancel.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Pobieranie w toku!");
                 }
             }
-
-
-
-
-            //DialogResult result = MessageBox.Show()
-
-            //if (!bwAsync.IsBusy)
-            //{
-            //    bwAsync.RunWorkerAsync();
-            //    btnDownload.Enabled = false;
-            //    btnCancel.Enabled = true;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Pobieranie w toku!");
-            //}
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -204,22 +249,11 @@ namespace WoT_modDownloader
             btnCancel.Enabled = false;
         }
 
-
         private void bwAsync_DoWork(object sender, DoWorkEventArgs e)
         {
-
-            //AddToLog("Downloading to " + KnownFolders.GetPath(KnownFolder.Downloads) + "...");
-
-            string destinationPath = KnownFolders.GetPath(KnownFolder.Downloads) + "//vehicles.zip";
-            //string destinationPath = @"d:\\vehicles.zip";
-            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
-            string sourceURL = remoteBase + gameVersion + "/mods/0.27.1/vehicles.zip";
-            //string sourceURL = @"http://behindpixels.co.uk/wot/0.9.9/mods/0.27.1/vehicles.zip";
-            DownloadHelper.Download(destinationPath, sourceURL, sender as BackgroundWorker);
+            DownloadHelper.Download(tempPath, fileToDownload, sender as BackgroundWorker);
         }
 
-
-       
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (e.ProgressPercentage >= 0)
@@ -234,7 +268,7 @@ namespace WoT_modDownloader
                     //AddToLog(complex.Message);
                 progress.Value = (int)complex.Percent;
                 lblProgress.Text = string.Format("{0:0.00} %", complex.Percent);
-                lblAdditionalInfo.Text = string.Format("{0:0.00}KB / {1:0.00}KB ({2:0.00}KB)", complex.CurrentBytes / 1024.0, complex.TotalBytes / 1024.0, complex.FileSize / 1024.0);
+                lblAdditionalInfo.Text = string.Format("{0:0.00}MB / {1:0.00}MB ({2:0.00}MB)", complex.CurrentBytes / 1024.0 / 1024.0, complex.TotalBytes / 1024.0 / 1024.0, complex.FileSize / 1024.0 / 1024.0);
             }
         }
 
@@ -253,6 +287,7 @@ namespace WoT_modDownloader
                 lblProgress.Text = "...";
                 lblAdditionalInfo.Text = "...";
                 AddToLog("Pobieranie ukonczone.");
+                UnzipUpdates();
             }
 
             btnDownload.Enabled = true;

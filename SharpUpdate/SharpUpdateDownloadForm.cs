@@ -63,7 +63,6 @@ namespace SharpUpdate
             {
                 e.Result = DialogResult.OK;
             }
-
         }
 
         private void BgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

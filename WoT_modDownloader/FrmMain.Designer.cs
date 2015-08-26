@@ -36,7 +36,6 @@
             this.lblProgress = new System.Windows.Forms.Label();
             this.lblAdditionalInfo = new System.Windows.Forms.Label();
             this.txtLog = new System.Windows.Forms.RichTextBox();
-            this.btnUpdate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progress
@@ -45,7 +44,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progress.Location = new System.Drawing.Point(12, 92);
             this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(662, 23);
+            this.progress.Size = new System.Drawing.Size(523, 23);
             this.progress.Step = 100;
             this.progress.TabIndex = 0;
             // 
@@ -60,7 +59,7 @@
             // btnDownload
             // 
             this.btnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDownload.Location = new System.Drawing.Point(12, 276);
+            this.btnDownload.Location = new System.Drawing.Point(12, 295);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(75, 23);
             this.btnDownload.TabIndex = 1;
@@ -72,12 +71,13 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(93, 276);
+            this.btnCancel.Location = new System.Drawing.Point(93, 295);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblProgress
@@ -91,7 +91,7 @@
             // lblAdditionalInfo
             // 
             this.lblAdditionalInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAdditionalInfo.Location = new System.Drawing.Point(453, 117);
+            this.lblAdditionalInfo.Location = new System.Drawing.Point(314, 117);
             this.lblAdditionalInfo.Name = "lblAdditionalInfo";
             this.lblAdditionalInfo.Size = new System.Drawing.Size(221, 13);
             this.lblAdditionalInfo.TabIndex = 5;
@@ -100,37 +100,31 @@
             // 
             // txtLog
             // 
+            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.Location = new System.Drawing.Point(12, 143);
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
-            this.txtLog.Size = new System.Drawing.Size(733, 119);
+            this.txtLog.Size = new System.Drawing.Size(523, 146);
             this.txtLog.TabIndex = 8;
             this.txtLog.Text = "";
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdate.Location = new System.Drawing.Point(599, 12);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdate.TabIndex = 9;
-            this.btnUpdate.Text = "Aktualizacja";
-            this.btnUpdate.UseVisualStyleBackColor = true;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 308);
-            this.Controls.Add(this.btnUpdate);
+            this.ClientSize = new System.Drawing.Size(547, 327);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.lblAdditionalInfo);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.progress);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Downloader";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
@@ -146,7 +140,6 @@
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Label lblAdditionalInfo;
         private System.Windows.Forms.RichTextBox txtLog;
-        private System.Windows.Forms.Button btnUpdate;
     }
 }
 

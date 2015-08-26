@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WoT_modDownloader
 {
@@ -20,7 +21,7 @@ namespace WoT_modDownloader
             worker.ReportProgress((int)resp.Percent, resp);
         }
 
-        public static long GetFileSize(string sourceURL)
+        public static long GetFileSize(Uri sourceURL)
         {
             var httpReq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(sourceURL);
             var httpRes = (System.Net.HttpWebResponse)httpReq.GetResponse();
@@ -29,15 +30,15 @@ namespace WoT_modDownloader
             return size;
         }
 
-        public static bool Download(string destinationPath, string sourceURL, BackgroundWorker bw)
+        public static bool Download(string destinationPath, Uri sourceURL, BackgroundWorker bw)
         {
             int bufferSize = 1024 * 1024;
             long existLen = 0;
-            
+
             var response = new ComplexResponse();
 
             System.IO.FileStream saveFileStream = null;
-            
+
             try
             {
                 System.IO.Stream resStream;
@@ -69,7 +70,7 @@ namespace WoT_modDownloader
                 if (existLen > 0 && acceptRanges) //if retry is available 
                     saveFileStream = new System.IO.FileStream(destinationPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
                 else
-                    saveFileStream = new System.IO.FileStream(destinationPath,FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+                    saveFileStream = new System.IO.FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 
 
                 resStream = httpRes.GetResponseStream();
